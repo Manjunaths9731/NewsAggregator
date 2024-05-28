@@ -5,7 +5,9 @@ import { styled } from '@mui/system';
 const MarqueeContainer = styled(Box)({
   overflow: 'hidden',
   whiteSpace: 'nowrap',
-  background: '#0fedfc',
+  background: '#d5d7db',
+  color: 'red',
+  fontWeight: 'bold'
 });
 
 const MarqueeContent = styled(Box)({

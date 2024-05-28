@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "./navbar";
 import ApiService from "../services/api";
 import CardList from "./cards";
@@ -14,6 +14,7 @@ const Home = () => {
   const [articles, setArticles] = useState([]);
   const [category, setCategory] = useState("general");
   const [generalArticles, setGeneralArticles] = useState([]);
+  const moreNewsRef = useRef(null);
 
   useEffect(() => {
     const fetchGeneralArticles = async () => {
@@ -21,7 +22,7 @@ const Home = () => {
       setGeneralArticles(response);
     };
     fetchGeneralArticles();
-  });
+  }, []);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -38,7 +39,7 @@ const Home = () => {
   return (
     <div>
       <Header title="NewsHub" />
-      <Navbar onCategoryChange={handleCategoryChange} />
+      <Navbar moreNewsRef={moreNewsRef} onCategoryChange={handleCategoryChange} />
       <Box>
         {/* <MarqueeSlider>
           <Typography
@@ -52,7 +53,7 @@ const Home = () => {
       <StockAndWeather location={"Bangalore"} />
       <Card articles={generalArticles} />
       <Routes>
-        <Route path="/" element={<CardList articles={articles} />} />
+        <Route path="/" element={<CardList articles={articles} moreNewsRef={moreNewsRef} />} />
       </Routes>
     </div>
   );

@@ -44,28 +44,28 @@ const Card = ({ articles }) => {
   const classes = useStyles();
   const [selectedArticles, setSelectedArticles] = useState([]);
 
-  useEffect(() => {
-    console.log('Articles:', articles);
+  const selectRandomArticles = () => {
+    const newSelectedArticles = [];
+    const articleSet = new Set();
 
-    const selectRandomArticles = () => {
-      if (articles.length > 0) {
-        const newSelectedArticles = [];
-        while (newSelectedArticles.length < 4) {
-          const randomIndex = Math.floor(Math.random() * articles.length);
-          const selectedArticle = articles[randomIndex];
-          if (!newSelectedArticles.includes(selectedArticle)) {
-            newSelectedArticles.push(selectedArticle);
-          }
-        }
-        setSelectedArticles(newSelectedArticles);
+    while (newSelectedArticles.length < 4 && articleSet.size < articles.length) {
+      const randomIndex = Math.floor(Math.random() * articles.length);
+      const selectedArticle = articles[randomIndex];
+      if (!articleSet.has(selectedArticle)) {
+        articleSet.add(selectedArticle);
+        newSelectedArticles.push(selectedArticle);
       }
-    };
+    }
 
-    selectRandomArticles();
+    setSelectedArticles(newSelectedArticles);
+  };
 
-    const intervalId = setInterval(selectRandomArticles, 20000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      selectRandomArticles();
+    }, 20000); 
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(interval); 
   }, [articles]);
 
   return (

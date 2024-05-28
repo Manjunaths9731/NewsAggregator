@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import { Card, CardHeader, CardContent, Typography, Button } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 355,
-    height: 430,
+    height: 520,
     background: "#fff",
     borderRadius: 18,
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-    margin: "10px", // Default margin
+    margin: "10px",
+    display: "flex",
+    flexWrap: "wrap",
+    textAlign: 'left',
     [theme.breakpoints.down("xs")]: {
       maxWidth: "100%",
       height: "auto",
-      margin: "10px 0", // Adjusted margin for mobile
+      margin: "10px 0",
     },
   },
   media: {
@@ -32,24 +28,26 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Open Sans",
     color: "#333",
     "& .MuiCardHeader-title": {
-      fontSize: "1rem", // Default font size
+      fontSize: "1rem",
       [theme.breakpoints.down("xs")]: {
-        fontSize: "0.8rem", // Smaller font size for mobile
+        fontSize: "0.8rem",
       },
     },
     "& .MuiCardHeader-subheader": {
-      fontSize: "0.8rem", // Default subheader size
+      fontSize: "0.8rem", 
       [theme.breakpoints.down("xs")]: {
-        fontSize: "0.7rem", // Smaller subheader size for mobile
+        fontSize: "0.7rem", 
       },
     },
+    textAlign: 'center',
+    margin: '20px 0',
   },
   content: {
     fontFamily: "Open Sans",
     "& .MuiTypography-body2": {
-      fontSize: "0.875rem", // Default body size
+      fontSize: "0.875rem", 
       [theme.breakpoints.down("xs")]: {
-        fontSize: "0.75rem", // Smaller body size for mobile
+        fontSize: "0.75rem",
       },
     },
   },
@@ -65,20 +63,19 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: "20px 0",
   },
-  header: {
-    fontFamily: 'Open Sans',
-    color: '#333',
-    textAlign: 'center',
-    margin: '20px 0',
-  }
+  image: {
+    width: '100%',
+    height: '50%',
+    objectFit: 'cover'
+  },
 }));
 
-const CardList = ({ articles }) => {
+const CardList = ({ articles, moreNewsRef }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [loading, setLoading] = useState(false);
-  const [allArticles, setAllArticles] = useState(articles);
+  const [allArticles, setAllArticles] = useState([]);
 
   const truncate = (text, limit) => {
     if (text && text.length > limit) {
@@ -103,16 +100,18 @@ const CardList = ({ articles }) => {
 
   const loadMoreArticles = () => {
     setLoading(true);
-    // Simulate an API call to fetch more articles
     setTimeout(() => {
-      const moreArticles = articles.slice(0, 4); // Replace with actual API call
-      setAllArticles((prevArticles) => [...prevArticles, ...moreArticles]);
+      setAllArticles((prevArticles) => [...prevArticles, ...articles]);
       setLoading(false);
     }, 2000);
   };
 
+  useEffect(() => {
+    setAllArticles(articles);
+  }, [articles]);
+
   return (
-    <div style={{ padding: "10px 20px 0px 20px" }}>
+    <div style={{ padding: "10px 20px 0px 20px" }} id="moreNews" ref={moreNewsRef}>
       <Typography variant="h4" className={classes.header}>
         More News
       </Typography>
@@ -139,18 +138,16 @@ const CardList = ({ articles }) => {
                   subheader={new Date(article.publishedAt).toLocaleDateString()}
                   className={classes.header}
                 />
-                <CardMedia
-                  className={classes.media}
-                  image={article.urlToImage}
-                  title={article.title}
-                />
+                {article.urlToImage && (
+                  <img src={article.urlToImage} alt="Article" className={classes.image} />
+                )}
                 <CardContent className={classes.content}>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
                   >
-                    {truncate(article.description, 100)}
+                    {truncate(article.description, 90)}
                   </Typography>
                 </CardContent>
               </Card>

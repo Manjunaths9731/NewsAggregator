@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       fontSize: '0.75rem',
+      margin: '0px',
     },
     [theme.breakpoints.up('md')]: {
       fontSize: '1rem',
@@ -121,14 +122,6 @@ const Header = () => {
               className={classes.button}
             >
               Following
-            </Button>
-            <Button
-              component={Link}
-              to="/signUp"
-              color="inherit"
-              className={classes.button}
-            >
-              Sign Up
             </Button>
             <Button
               component={Link}

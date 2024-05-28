@@ -224,14 +224,14 @@ const Stock = () => {
       }
     };
 
-    fetchData(); // Fetch data initially
+    fetchData();
 
     const intervalId = setInterval(() => {
-      fetchData(); // Fetch data every 30 seconds
+      fetchData();
     }, 30000);
 
     return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
+      clearInterval(intervalId);
     };
   }, []);
 
@@ -243,7 +243,7 @@ const Stock = () => {
   const getDate = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const month = String(today.getMonth()).padStart(2, "0");
     const day = String(today.getDate() - 2).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };

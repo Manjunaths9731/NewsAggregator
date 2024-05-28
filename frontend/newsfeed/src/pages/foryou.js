@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%',
   },
   cardContainer: {
     display: 'flex',
@@ -44,11 +44,9 @@ const ForYou = ({ articles }) => {
         const email = decoded.email;
 
         try {
-          // Fetch followed channels
           const response = await axios.get(`${config.followingApi}?email=${email}`);
           const followedChannels = response.data.channels;
 
-          // Filter articles by followed channels
           const filtered = articles.filter(article =>
             followedChannels.includes(article.source)
           );
@@ -89,14 +87,14 @@ const ForYou = ({ articles }) => {
               >
                 <Card className={classes.root}>
                   <CardHeader
-                    title={truncate(article.title, 120)}
+                    title={truncate(article.title, 100)}
                     subheader={article.publishedAt}
-                    style={{ fontFamily: 'Open Sans', color: '#333' }}
+                    style={{ fontSize: '0.5rem', fontFamily: 'Open Sans', color: '#333' }}
                   />
                   <CardMedia className={classes.media} image={article.urlToImage} title={article.title} />
                   <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
-                      {truncate(article.description, 120)}
+                      {truncate(article.description, 80)}
                     </Typography>
                   </CardContent>
                 </Card>
